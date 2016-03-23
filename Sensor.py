@@ -1,9 +1,8 @@
 import serial
 import time, os
 
-class PM25:
-
-    """Class for PM2.5"""
+class Sensor:
+    """Class for sensor"""
     def __init__(self, serPort, baudRate):
 
         self.ser = serial.Serial()
@@ -20,13 +19,13 @@ class PM25:
         self.ser.writeTimeout = 2
 
         try:
-            self.Log("Trying to connect PM2.5 board on ...")
+            self.Log("Trying to connect sensor ...")
             self.ser.open()
         except Exception, error:
             self.Log(error)
 
     """Show hex"""
-    def hexShow(self, byte):  
+    def PM25_Hex(self, byte=10):  
         orinialData = self.ser.read(byte)
         result = ''
         hLen = len(orinialData)  
@@ -34,8 +33,15 @@ class PM25:
             hvol = ord(orinialData[i])  
             hhex = '%02x'%hvol  
             result += hhex+' '  
-        self.Log('PM2.5:'+result)
+        #self.Log('PM2.5:'+result)
         return result
+
+    def TempHumi(self):
+        #length = self.ser.inWaiting()
+        #if length != 0:
+        #    print '--',length
+        orinialData = self.ser.read(47)
+        print '-',orinialData.find('\n')
 
     """Function for logging output"""
     def Log(self, msg):
