@@ -7,4 +7,4 @@ if __name__ == "__main__":
     while True:
         data = sensor.PM25_Hex(10).split(" ")
         pm = int(data[3]+data[2], 16)/10
-        print 'PM2.5:',  pm
+        print str(time.strftime("%H:%M:%S", time.localtime())) + ' PM2.5: ',  pm
